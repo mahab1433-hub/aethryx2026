@@ -616,27 +616,83 @@ sections.forEach(section => {
 
 const EVENT_DATA = {
     paper: {
-        icon: '<i class="fas fa-lightbulb"></i>',
+        icon: '<i class="fas fa-file-code"></i>',
         category: 'Technical Protocol',
-        title: 'Ideathon',
+        title: '(PAPER X) Paper Presentation',
         accent: false,
-        description: 'Spark your creativity and pitch your revolutionary ideas in VLSI and electronic design. This event is a platform for innovative thinkers to present conceptual solutions to real-world engineering challenges.',
+        description: 'Showcase your original research and innovative ideas in VLSI Design, Microelectronics, Embedded Systems, and allied domains. Participants will present their work before a panel of faculty judges and receive professional feedback.',
         teamSize: '2 – 3 Members',
-        duration: '2 Hours',
+        duration: '3 Hours',
         eligibility: 'UG / PG Students',
         rounds: [
-            { label: 'Round 1', desc: 'Presentation — Present your idea through a pitch deck (PPT) within 10 minutes, followed by a Q&A session.' },
+            { label: 'Round 1', desc: 'Abstract Submission — Submit a 250-word abstract of your paper for screening. Shortlisted teams will be notified 2 days before the event.' },
+            { label: 'Round 2', desc: 'Presentation — Shortlisted teams present their paper (PPT) within 8 minutes, followed by a 5-minute Q&A session with the judges.' },
         ],
         rules: [
-            'Each team must consist of 2 to 3 members.',
-            'Ideas must be original; feasibility and innovation are key judging criteria.',
-            'Presentation duration: 10 minutes + 5 minutes Q&A.',
+            'Each team must consist of 2 to 3 members from the same institution.',
+            'Papers must be original work; plagiarism will lead to immediate disqualification.',
+            'Abstract must be submitted at least 48 hours before the event.',
+            'Presentation duration: 8 minutes + 5 minutes Q&A.',
+            'Teams must bring their presentation on a USB drive or submit it beforehand.',
+            'Use of AI-generated content must be disclosed and is subject to judge discretion.',
             'Judges\' decision is final and binding.',
         ],
         coordinators: [
             { name: 'Divyabharathi N', phone: '+91 -' },
             { name: 'Aysha ravha', phone: '+91 -' },
             { name: 'Kavyaa s', phone: '+91 -' },
+        ],
+    },
+
+    poster: {
+        icon: '<i class="fas fa-chalkboard"></i>',
+        category: 'Technical Protocol',
+        title: '(Vision Grid) Poster presentation',
+        accent: false,
+        description: 'Communicate complex engineering concepts through visually engaging, high-impact technical posters. Participants defend their work to a roving panel of judges in an exhibition-style format.',
+        teamSize: '2 – 3 Members',
+        duration: '2 Hours',
+        eligibility: 'UG / PG Students',
+        rounds: [
+            { label: 'Submission', desc: 'Submit digital poster (A1 size, PDF/JPG) by the given deadline for initial review.' },
+            { label: 'Exhibition & Defence', desc: 'Display physical posters and defend your work to judges in a 10-minute stand-up discussion per team.' },
+        ],
+        rules: [
+            'Poster size must be A1 (594 × 841 mm); both printed and softcopy required.',
+            'Posters must be designed using standard tools (Canva, PowerPoint, Illustrator, etc.).',
+            'Content must relate to ECE / VLSI / Embedded / IoT domains.',
+            'Teams must be present at their poster stand at all times during judging hours.',
+            'No audio or video playback allowed; poster only.',
+            'Originality is mandatory; plagiarism leads to disqualification.',
+        ],
+        coordinators: [
+            { name: 'Kavya N', phone: '+91 58765 43210' },
+            { name: 'Rajan T', phone: '+91 47654 32109' },
+        ],
+    },
+
+    coding: {
+        icon: '<i class="fas fa-laptop-code"></i>',
+        category: 'Technical Protocol',
+        title: 'Logic League (coding contest)',
+        accent: false,
+        description: 'Compile, debug, and execute your way through high-stakes algorithmic challenges. Prove your logic and coding efficiency in a fast-paced programming environment.',
+        teamSize: '1 – 2 Members',
+        duration: '2 Hours',
+        eligibility: 'UG / PG Students',
+        rounds: [
+            { label: 'Round 1 — Logic Gates', desc: 'Solve rapid-fire MCQs on output prediction, syntax, and fundamental data structures.' },
+            { label: 'Round 2 — The Matrix', desc: 'Write and compile robust algorithms to solve 3 complex competitive programming problems.' },
+        ],
+        rules: [
+            'Teams can consist of 1 or 2 members.',
+            'Allowed languages: C, C++, Java, and Python.',
+            'Internet access is strictly capped to the competition platform.',
+            'Plagiarism checking algorithms will be run; identical codes will lead to disqualification.',
+        ],
+        coordinators: [
+            { name: 'Karthik S', phone: '+91 99887 11223' },
+            { name: 'Pooja V', phone: '+91 88776 22334' },
         ],
     },
 
