@@ -3,15 +3,15 @@
 :root {
   --bg-dark: #000103;
   --bg-darker: #000000;
-  --primary: #00f3ff;
-  --primary-glow: rgba(0, 243, 255, 0.5);
-  --accent: #8e2de2;
-  --accent-glow: rgba(142, 45, 226, 0.5);
-  --electric-blue: #4100ff;
-  --glass: rgba(10, 15, 30, 0.7);
-  --glass-border: rgba(0, 243, 255, 0.2);
-  --text-main: #e0faff;
-  --text-dim: #a0c4cc;
+  --primary: #00d9ff;
+  --primary-glow: rgba(0, 217, 255, 0.7);
+  --accent: #7c3aed;
+  --accent-glow: rgba(124, 58, 237, 0.5);
+  --electric-blue: #00bfff;
+  --glass: rgba(0, 0, 0, 0.85);
+  --glass-border: rgba(0, 217, 255, 0.25);
+  --text-main: #f0fdff;
+  --text-dim: #94aab0;
 }
 
 * {
@@ -21,7 +21,7 @@
 }
 
 body {
-  background-color: var(--bg-dark);
+  background-color: var(--bg-darker);
   color: var(--text-main);
   font-family: 'Exo 2', sans-serif;
   overflow-x: hidden;
@@ -206,20 +206,168 @@ nav {
   transform: translateY(-2px);
 }
 
-/* Hero Section */
-#home {
-  text-align: center;
-  align-items: center;
+/* Centralized Aethryx Text-Logo Style */
+.aethryx-logo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin-bottom: 2.5rem;
+    perspective: 1000px;
+    z-index: 20;
+    animation: text-logo-reveal 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 
-.hero-content h1 {
-  font-size: 5rem;
-  margin-bottom: 0.5rem;
-  background: linear-gradient(90deg, var(--primary), var(--accent));
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 10px rgba(0, 243, 255, 0.3));
+.aethryx-text-logo {
+    font-size: clamp(3.5rem, 10vw, 8rem);
+    font-weight: 900;
+    font-family: 'Orbitron', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    transform: scaleX(1.25); /* Boldly stretched look */
+    margin: 0;
+    padding: 0;
+    position: relative;
+    user-select: text;
+    cursor: default;
+    
+    /* Cyberpunk Gradient Lettering */
+    background: linear-gradient(to bottom, 
+        #ffffff 0%, 
+        var(--primary) 40%, 
+        var(--electric-blue) 70%, 
+        #004466 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    
+    /* Premium Multi-Layered Glow & 3D Metallic Effect */
+    filter: drop-shadow(0 0 15px var(--primary-glow));
+    text-shadow: 
+        0 1px 0 #cccccc,
+        0 2px 0 #999999,
+        0 3px 0 #666666,
+        0 0 10px var(--primary-glow),
+        0 0 30px var(--primary-glow),
+        0 0 60px var(--primary-glow);
+    
+    animation: text-logo-pulse 4s ease-in-out infinite;
+    transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+.aethryx-sub-text {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.2rem;
+    letter-spacing: 0.6em;
+    color: var(--primary);
+    text-shadow: 0 0 10px var(--primary-glow);
+    margin-top: -0.5rem;
+    opacity: 0.8;
+}
+
+/* Image Logo Styling */
+.aethryx-image-logo {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    filter: drop-shadow(0 0 15px var(--primary-glow));
+    transition: transform 0.3s ease, filter 0.3s ease;
+    user-select: none;
+    pointer-events: none;
+}
+
+.splash-logo-container .aethryx-image-logo {
+    max-width: 450px;
+}
+
+.hero-logo-container .aethryx-image-logo {
+    max-width: 700px;
+}
+
+.pulse-glow {
+    animation: image-pulse 4s ease-in-out infinite;
+}
+
+@keyframes image-pulse {
+    0%, 100% {
+        filter: drop-shadow(0 0 15px var(--primary-glow)) brightness(1);
+        transform: scale(1);
+    }
+    50% {
+        filter: drop-shadow(0 0 35px var(--primary-glow)) brightness(1.2);
+        transform: scale(1.02);
+    }
+}
+
+
+.aethryx-text-logo:hover {
+    filter: brightness(1.2) drop-shadow(0 0 35px var(--primary-glow));
+    transform: scaleX(1.3) scale(1.02);
+}
+
+@keyframes text-logo-reveal {
+    0% {
+        opacity: 0;
+        transform: scale(0.9) translateZ(-100px);
+        filter: blur(20px) brightness(0);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateZ(0);
+        filter: blur(0) brightness(1);
+    }
+}
+
+@keyframes text-logo-pulse {
+    0%, 100% {
+        filter: drop-shadow(0 0 20px var(--primary-glow)) brightness(1);
+        text-shadow: 
+            0 1px 0 #cccccc, 0 2px 0 #999999, 
+            0 0 10px var(--primary-glow), 0 0 30px var(--primary-glow);
+    }
+    50% {
+        filter: drop-shadow(0 0 50px var(--primary-glow)) brightness(1.2);
+        transform: scaleX(1.25) scale(1.03);
+        text-shadow: 
+            0 1px 0 #ffffff, 0 2px 0 #cccccc, 
+            0 0 25px var(--primary-glow), 0 0 60px var(--primary-glow);
+    }
+}
+
+/* Intro Animation */
+.fade-in-zoom {
+  animation: intro-reveal 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  opacity: 0;
+}
+
+@keyframes intro-reveal {
+  0% {
+    opacity: 0;
+    transform: scale(0.85);
+    filter: brightness(0) blur(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: brightness(1) blur(0);
+  }
+}
+
+@keyframes logo-pulse {
+  0%, 100% {
+    transform: scale(1) translateY(0);
+    filter: drop-shadow(0 0 20px var(--primary-glow)) brightness(1.1);
+  }
+  50% {
+    transform: scale(1.04) translateY(-8px);
+    filter: drop-shadow(0 0 45px var(--primary-glow)) brightness(1.3);
+  }
+}
+
+@keyframes electric-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 .hero-content h2 {

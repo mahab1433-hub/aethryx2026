@@ -12,9 +12,10 @@ const pixelRatio = isMobile ? Math.min(window.devicePixelRatio, 1) : Math.min(wi
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(pixelRatio);
+renderer.setClearColor(0x000000, 1); // Set absolute black background
 
 const scene = new THREE.Scene();
-scene.fog = new THREE.FogExp2(0x000103, 0.004);
+scene.fog = new THREE.FogExp2(0x000000, 0.005);
 
 const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
 camera.position.set(0, 0, 10); // Start very close to the chip for splash animation
@@ -33,15 +34,15 @@ composer.addPass(bloomPass);
 
 // ---- COLORS ----
 const colors = {
-    baseMetal: 0x020614,
-    glassDie: 0x01132b,
-    glowCyan: 0x00f3ff,
-    circuitLine: 0x00aacc, // Slightly muted active cyan
-    node: 0x0088ff,
-    electron: 0x00f3ff,
-    accent: 0x7700ff,
-    gridMain: 0x005599,
-    gridSub: 0x001133
+    baseMetal: 0x010208,
+    glassDie: 0x000000,
+    glowCyan: 0x00d9ff,
+    circuitLine: 0x005577, // Slightly brighter for visibility
+    node: 0x00d9ff,
+    electron: 0x00d9ff,
+    accent: 0x00aaff,
+    gridMain: 0x003344,
+    gridSub: 0x000815
 };
 
 const board = new THREE.Group();
@@ -390,7 +391,7 @@ mirrors.forEach(([mx, my]) => {
                     mesh,
                     path: curve,
                     progress: Math.random(),
-                    baseSpeed: Math.random() * 0.004 + 0.002 // Increased for faster energy flow as requested
+                    baseSpeed: Math.random() * 0.006 + 0.003 // Reduced for medium speed electric feel
                 });
             }
         }
@@ -415,6 +416,8 @@ const particleMaterial = new THREE.PointsMaterial({
     blending: THREE.AdditiveBlending
 });
 const particles = new THREE.Points(particleGeometry, particleMaterial);
+particleMaterial.size = 0.2;
+particleMaterial.opacity = 0.15;
 scene.add(particles);
 
 // ---- 4. LIGHTS ----
@@ -942,8 +945,22 @@ window.addEventListener('load', () => {
             splashScreen.classList.add('hidden');
             document.body.classList.remove('no-scroll');
             document.body.classList.remove('hide-content');
+
+            // Hero Logo Custom "Spin-in" Entrance
+            gsap.to(".hero-logo-container img", {
+                opacity: 1,
+                scale: 1,
+                rotation: 0,
+                filter: "blur(0px)",
+                duration: 2.2,
+                ease: "expo.out",
+                delay: 0.2
+            });
         }
     });
+
+    // 0. Initial state for hero logo reveal (spin & fade)
+    gsap.set(".hero-logo-container img", { opacity: 0, scale: 0.8, rotation: -180, filter: "blur(15px)" });
 
     // 1. Camera Pullback & Board Spin
     introTl.to(camera.position, {
