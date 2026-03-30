@@ -793,28 +793,25 @@ const EVENT_DATA = {
     movie: {
         icon: '<i class="fas fa-film"></i>',
         category: 'Offline Module',
-        title: 'Film fiesta (movie hunt)',
+        title: 'Film Fiesta',
         accent: true,
-        description: 'Decode cinematic clues, decipher audio tracks, and race against time in this immersive movie-themed scavenger hunt across the campus.',
-        teamSize: '3 – 4 Members',
-        duration: '1.5 Hours',
-        eligibility: 'Open to All Students',
+        description: 'A cinematic challenge designed to test your movie knowledge through visual hints, background themes, and iconic dialogues across three competitive rounds.',
+        teamSize: '1–3 Members per Team',
+        duration: 'Varies by Round',
+        eligibility: 'Max 10 Teams (Leaderboard Eliminations)',
         rounds: [
-            { label: 'Round 1 — Audio Dash', desc: 'Identify movies from obscure BGM and dialogue snippets to secure the first map.' },
-            { label: 'Round 2 — Frame by Frame', desc: 'Follow a trail of physical movie posters across campus, solving puzzles at each checkpoint.' },
+            { label: 'Round 1 — Picture Puzzle', desc: 'Identify movie names through a series of picture puzzles. Each correct guess earns the team 10 points.' },
+            { label: 'Round 2 — Theme Music', desc: 'An audio-based round where teams must name movies based on their background theme music.' },
+            { label: 'Round 3 — Iconic Dialogues', desc: 'A final audio-based quiz focusing on specific dialogues. Cumulative points will finalize the ultimate leaderboard.' },
         ],
         rules: [
-            'Team size: exactly 3 to 4 members.',
-            'Teams must stay together; splitting up to find clues leads to time penalties.',
-            'Use of smartphones for reverse image searching is prohibited during checkpoints.',
-            'The first team to decode the final sequence and reach the endpoint wins.',
+            'Teams can consist of 1 to 3 members.',
+            'Total occupancy is strictly limited to 10 teams.',
+            '10 points are awarded for every correct guess per round.',
+            'Leaderboard updates after every round; lowest-scoring teams are eliminated as per regulations.',
+            'Final leaderboard scores at the end of Round 3 determine the top 3 prize winners.',
         ],
-        coordinators: [
-            { name: 'Balamurugan M', phone: '+91 -' },
-            { name: 'JeyaVarman S', phone: '+91 -' },
-            { name: 'Jermiya Honey J', phone: '+91 -' },
-            { name: 'Gokul Shankar V', phone: '+91 -' },
-        ],
+        coordinators: [],
     },
 };
 
@@ -911,7 +908,7 @@ document.addEventListener('keydown', e => {
 // ---- 6. SPLASH SCREEN LOGIC (GSAP CINEMATIC INTRO) ----
 window.addEventListener('load', () => {
     const splashScreen = document.getElementById('splash-screen');
-    const title = document.querySelector('.splash-title');
+    const title = document.querySelector('.splash-logo-container');
     const subtitle = document.querySelector('.splash-subtitle');
     const line = document.querySelector('.splash-line');
 
@@ -967,33 +964,37 @@ window.addEventListener('load', () => {
     }, 1.8);
 
     // 3. Cinematic Typography Reveal
-    gsap.set(title, { opacity: 0, scale: 1.1, filter: "blur(15px)", letterSpacing: "20px" });
-    gsap.set(subtitle, { opacity: 0, scale: 1.1, filter: "blur(10px)", letterSpacing: "15px" });
-    gsap.set(line, { width: "0%" });
+    if (title) {
+        gsap.set(title, { opacity: 0, scale: 1.1, filter: "blur(15px)" });
+        introTl.to(title, {
+            opacity: 1,
+            scale: 1,
+            filter: "blur(0px)",
+            duration: 1.5,
+            ease: "expo.out"
+        }, 1.6);
+    }
 
-    introTl.to(title, {
-        opacity: 1,
-        scale: 1,
-        filter: "blur(0px)",
-        letterSpacing: "0px",
-        duration: 1.5,
-        ease: "expo.out"
-    }, 1.6);
+    if (subtitle) {
+        gsap.set(subtitle, { opacity: 0, scale: 1.1, filter: "blur(10px)", letterSpacing: "15px" });
+        introTl.to(subtitle, {
+            opacity: 1,
+            scale: 1,
+            filter: "blur(0px)",
+            letterSpacing: "5px",
+            duration: 1.5,
+            ease: "expo.out"
+        }, 1.7);
+    }
 
-    introTl.to(subtitle, {
-        opacity: 1,
-        scale: 1,
-        filter: "blur(0px)",
-        letterSpacing: "5px",
-        duration: 1.5,
-        ease: "expo.out"
-    }, 1.7);
-
-    introTl.to(line, {
-        width: "100%",
-        duration: 1.5,
-        ease: "expo.out"
-    }, 1.6);
+    if (line) {
+        gsap.set(line, { width: "0%" });
+        introTl.to(line, {
+            width: "100%",
+            duration: 1.5,
+            ease: "expo.out"
+        }, 1.6);
+    }
 
     // Hold briefly before unlocking screen
     introTl.to({}, { duration: 0.3 });

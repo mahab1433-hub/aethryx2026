@@ -4,8 +4,6 @@ export default {
     host: true, 
     // Allowing all hosts to ensure the tunnel always works
     allowedHosts: true,
-    hmr: {
-      clientPort: 443
-    }
+    hmr: true
   }
 }
