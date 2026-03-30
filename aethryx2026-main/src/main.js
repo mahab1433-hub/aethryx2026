@@ -620,28 +620,22 @@ const EVENT_DATA = {
         category: 'Technical Protocol',
         title: '(PAPER X) Paper Presentation',
         accent: false,
-        description: 'Showcase your original research and innovative ideas in VLSI Design, Microelectronics, Embedded Systems, and allied domains. Participants will present their work before a panel of faculty judges and receive professional feedback.',
-        teamSize: '2 – 3 Members',
-        duration: '3 Hours',
-        eligibility: 'UG / PG Students',
+        description: 'Showcase your innovative ideas, research insights, and technical expertise at our Paper Presentation event. This platform provides an opportunity for students to present their work, exchange knowledge, and gain valuable feedback from experts.',
+        teamSize: 'As per selection',
+        duration: '7 Minutes',
+        eligibility: 'Presentation Timings via WhatsApp',
         rounds: [
-            { label: 'Round 1', desc: 'Abstract Submission — Submit a 250-word abstract of your paper for screening. Shortlisted teams will be notified 2 days before the event.' },
-            { label: 'Round 2', desc: 'Presentation — Shortlisted teams present their paper (PPT) within 8 minutes, followed by a 5-minute Q&A session with the judges.' },
+            { label: 'Domains', desc: 'VLSI, IoT & Embedded Systems, Information Technology (IT), Cybersecurity, Artificial Intelligence (AI).' },
+            { label: 'Presentation Format', desc: '7 Minutes total: 5 Minutes for Presentation and 2 Minutes for Q&A.' },
         ],
         rules: [
-            'Each team must consist of 2 to 3 members from the same institution.',
-            'Papers must be original work; plagiarism will lead to immediate disqualification.',
-            'Abstract must be submitted at least 48 hours before the event.',
-            'Presentation duration: 8 minutes + 5 minutes Q&A.',
-            'Teams must bring their presentation on a USB drive or submit it beforehand.',
-            'Use of AI-generated content must be disclosed and is subject to judge discretion.',
-            'Judges\' decision is final and binding.',
+            'Participants must upload their presentation in advance via Google Form.',
+            'Accepted formats: PDF / PPTX only.',
+            'Evaluation based on Technical Knowledge, Innovation, Clarity, Time Management, and Q&A ability.',
+            'Content must be clear, concise, and within the time limit.',
+            'Presentation timings will be shared via WhatsApp.',
         ],
-        coordinators: [
-            { name: 'Divyabharathi N', phone: '+91 -' },
-            { name: 'Aysha ravha', phone: '+91 -' },
-            { name: 'Kavyaa s', phone: '+91 -' },
-        ],
+        coordinators: [],
     },
 
     poster: {
@@ -649,51 +643,44 @@ const EVENT_DATA = {
         category: 'Technical Protocol',
         title: '(Vision Grid) Poster presentation',
         accent: false,
-        description: 'Communicate complex engineering concepts through visually engaging, high-impact technical posters. Participants defend their work to a roving panel of judges in an exhibition-style format.',
-        teamSize: '2 – 3 Members',
-        duration: '2 Hours',
-        eligibility: 'UG / PG Students',
+        description: 'Present your ideas visually and creatively through our Poster Presentation event. This event encourages participants to communicate technical concepts in a concise and visually engaging format while interacting with judges and peers.',
+        teamSize: 'Max 2 Participants',
+        duration: '5–7 Minutes',
+        eligibility: 'Printed Poster Required',
         rounds: [
-            { label: 'Submission', desc: 'Submit digital poster (A1 size, PDF/JPG) by the given deadline for initial review.' },
-            { label: 'Exhibition & Defence', desc: 'Display physical posters and defend your work to judges in a 10-minute stand-up discussion per team.' },
+            { label: 'Domains', desc: 'VLSI, IoT & Embedded Systems, Information Technology (IT), Cybersecurity, Artificial Intelligence (AI).' },
+            { label: 'Exhibition & Defence', desc: 'Each team will be given 5–7 Minutes to present their poster and interact with judges.' },
         ],
         rules: [
-            'Poster size must be A1 (594 × 841 mm); both printed and softcopy required.',
-            'Posters must be designed using standard tools (Canva, PowerPoint, Illustrator, etc.).',
-            'Content must relate to ECE / VLSI / Embedded / IoT domains.',
-            'Teams must be present at their poster stand at all times during judging hours.',
-            'No audio or video playback allowed; poster only.',
-            'Originality is mandatory; plagiarism leads to disqualification.',
+            'Posters should be clear, informative, and visually appealing.',
+            'Participants must bring their own printed poster for the event.',
+            'Content must highlight: Problem Statement, Methodology, Results/Outcome, and Conclusion.',
+            'Evaluated on innovation, clarity of presentation, and ability to answer questions.',
         ],
-        coordinators: [
-            { name: 'Kavya N', phone: '+91 58765 43210' },
-            { name: 'Rajan T', phone: '+91 47654 32109' },
-        ],
+        coordinators: [],
     },
 
     coding: {
         icon: '<i class="fas fa-laptop-code"></i>',
         category: 'Technical Protocol',
-        title: 'Logic League (coding contest)',
+        title: 'Logic League',
         accent: false,
-        description: 'Compile, debug, and execute your way through high-stakes algorithmic challenges. Prove your logic and coding efficiency in a fast-paced programming environment.',
-        teamSize: '1 – 2 Members',
-        duration: '2 Hours',
-        eligibility: 'UG / PG Students',
+        description: 'Logic League is a technical coding challenge designed to test participants’ programming knowledge, logical thinking, debugging skills, and problem-solving ability through multiple competitive rounds.',
+        teamSize: '2 Members per Team',
+        duration: 'Varies by round',
+        eligibility: 'Shortlisted Participants',
         rounds: [
-            { label: 'Round 1 — Logic Gates', desc: 'Solve rapid-fire MCQs on output prediction, syntax, and fundamental data structures.' },
-            { label: 'Round 2 — The Matrix', desc: 'Write and compile robust algorithms to solve 3 complex competitive programming problems.' },
+            { label: 'Round 1', desc: 'Output Prediction — Participants must correctly predict the output of a given code snippet without executing it, within a strict time limit.' },
+            { label: 'Round 2', desc: 'One Problem – Many Ways — Teams solve a programming challenge; evaluated on code correctness, length (shortest code wins), and logical efficiency.' },
+            { label: 'Round 3', desc: 'Error Debugging — Identify and fix errors in a provided code snippet within the allocated time limit.' },
         ],
         rules: [
-            'Teams can consist of 1 or 2 members.',
-            'Allowed languages: C, C++, Java, and Python.',
-            'Internet access is strictly capped to the competition platform.',
-            'Plagiarism checking algorithms will be run; identical codes will lead to disqualification.',
+            'Each team must consist of exactly 2 members.',
+            'Topics include Python, Output Prediction, and Debugging.',
+            'Teams are evaluated based on Accuracy, Code Efficiency, and Time Management.',
+            'Decisions made by the event coordinators are final.',
         ],
-        coordinators: [
-            { name: 'Karthik S', phone: '+91 99887 11223' },
-            { name: 'Pooja V', phone: '+91 88776 22334' },
-        ],
+        coordinators: [],
     },
 
     quiz: {
@@ -701,57 +688,58 @@ const EVENT_DATA = {
         category: 'Technical Protocol',
         title: '(TECH Q) TECHNICAL QUIZ',
         accent: false,
-        description: 'Test the depth of your technical knowledge spanning digital electronics, circuit design, semiconductor physics, VLSI fundamentals, and current industry trends. A fast-paced, high-intensity quiz for the sharpest minds.',
-        teamSize: '2 Members',
+        description: 'Test your expertise in Basic Electronics, VLSI, IoT, Embedded Systems, and Basic Coding. Teams will be shortlisted based on Google Form responses submitted by participants.',
+        teamSize: '2 Members per Team',
         duration: '1.5 Hours',
-        eligibility: 'UG / PG Students',
+        eligibility: 'Shortlisted from Google Form',
         rounds: [
-            { label: 'Round 1 — Rapid Fire', desc: 'MCQ-based written round. Top teams advance to Round 2.' },
-            { label: 'Round 2 — Buzzer Round', desc: 'Teams compete live on buzzer questions across electronics, VLSI, and general tech. Negative marking applies.' },
-            { label: 'Round 3 — Final Showdown', desc: 'Top 3 teams face a visual circuit-identification rapid round for the championship.' },
+            { label: 'Round 1', desc: 'First Spark — Quick-response verbal round where participants raise their hands to answer. Tests fundamental knowledge and alertness.' },
+            { label: 'Round 2', desc: 'Screen Surge — Questions displayed on screen; participants answer by raising hands. Focuses on conceptual understanding and analytical thinking.' },
+            { label: 'Round 3', desc: 'Rapid Circuit — High-speed rapid fire round where teams answer a series of questions within a limited time to evaluate speed and accuracy.' },
         ],
         rules: [
-            'Team size: exactly 2 members.',
-            'Mobile phones and electronic devices are strictly prohibited during the quiz.',
-            'Negative marking of 0.5 marks per wrong answer applies in rounds 2 and 3.',
-            'Buzzer timings are controlled by the quiz master — no delays allowed.',
-            'Answers must be given within 10 seconds of the question being read.',
-            'Decision of the quiz master is final.',
+            'Each team must consist of exactly 2 members.',
+            'Initial shortlisting is based on Google Form responses.',
+            'In hand-raising rounds, the first to raise their hand will be given priority.',
+            'Verbal answers must be clear and direct.',
+            'The Rapid Circuit round requires quick response times—accuracy and speed are key.',
+            'Decisions made by the event coordinators/judges are final.',
+            'Electronic gadgets are not allowed unless specified during round 2.',
         ],
-        coordinators: [
-            { name: 'Ahanya SK', phone: '+91 -' },
-            { name: 'Mithran B', phone: '+91 -' },
-            { name: 'Bashadhaarenya E', phone: '+91 -' },
-        ],
+        coordinators: [],
     },
 
 
     doodle: {
         icon: '<i class="fas fa-pen-fancy"></i>',
         category: 'Offline Module',
-        title: 'Picto Play (doodle & guess)',
+        title: 'Doodle & Guess',
         accent: true,
-        description: 'A hilarious and creative team game where one member draws a tech or general concept on the whiteboard while teammates race to guess the word correctly. Speed, creativity, and teamwork win the day!',
-        teamSize: '3 – 4 Members',
-        duration: '1 Hour',
+        description: 'Doodle & Guess is a fun and interactive team-based game where one participant draws a given word, while the other teammate guesses it within a limited time. This event enhances creativity, quick thinking, and teamwork in an entertaining way.',
+        teamSize: '2 Members',
+        duration: '3 Minutes per team',
         eligibility: 'Open to All Students',
         rounds: [
-            { label: 'Round 1 — Warm Up', desc: 'General topics — easy words. Teams get familiar with the format.' },
-            { label: 'Round 2 — Tech Mode', desc: 'Technical VLSI/ECE-themed doodle words. Higher points, strict time limit.' },
-            { label: 'Final — Speed Draw', desc: 'Top teams compete in a rapid-fire simultaneous draw — fastest correct guess wins.' },
+            { label: 'Round 1', desc: 'Theme: Sports' },
+            { label: 'Round 2', desc: 'Theme: Compound Words' },
+            { label: 'Round 3', desc: 'Theme: Logo' },
         ],
         rules: [
-            'One member draws at a time; rotation is mandatory after each word.',
-            'No verbal hints, finger pointing or mouthing of words allowed.',
-            'Each word must be guessed within 60 seconds.',
-            'Abbreviations and acronyms are not valid guesses unless specified.',
-            'Teams must not interfere with other teams during their turn.',
-            'Event coordinators assign words randomly — no swaps.',
+            'The game will be conducted in 3 rounds.',
+            'Each team will have 2 members.',
+            'Each team will be given 3 minutes to guess as many words as possible.',
+            'One member will draw, and the other member will guess.',
+            'The member chosen for drawing cannot be replaced during the game.',
+            'Words will be given in the form of slots; the participant must draw the selected word.',
+            'If the team gives two consecutive wrong guesses, no points will be awarded for that slot.',
+            'Speaking, writing letters/numbers, or using actions is not allowed—only drawing is permitted.',
+            'Each correct guess will be awarded points.',
+            'The team with the maximum correct guesses within 3 minutes will be the winner.',
         ],
         coordinators: [
+            { name: 'Lohendran C', phone: '+91 -' },
+            { name: 'Lokesh R', phone: '+91 -' },
             { name: 'Deepika S E', phone: '+91 -' },
-            { name: 'lohendran C', phone: '+91 -' },
-            { name: 'lokesh R', phone: '+91 -' },
         ],
     },
 
@@ -788,30 +776,25 @@ const EVENT_DATA = {
     funq: {
         icon: '<i class="fas fa-brain"></i>',
         category: 'Offline Module',
-        title: 'Fun Q (non technical Quiz)',
+        title: 'Fun Quiz',
         accent: true,
-        description: 'A lively and entertaining general knowledge quiz covering pop culture, movies, sports, science facts, lateral thinking puzzles, and more. Perfect for quick thinkers who love a good mental challenge!',
-        teamSize: '2 Members',
-        duration: '1 Hour',
+        description: 'A fun and engaging quiz event designed to test participants’ knowledge in general topics like movies, sports, current affairs, and entertainment through exciting rounds.',
+        teamSize: 'Individual (1 Member)',
+        duration: 'Varies by round',
         eligibility: 'Open to All Students',
         rounds: [
-            { label: 'Round 1 — Written', desc: 'MCQ and fill-in-the-blank questions covering GK, current affairs, and pop culture.' },
-            { label: 'Round 2 — Audio/Visual', desc: 'Identify songs, movie scenes, and famous personalities from audio/visual clues.' },
-            { label: 'Tie-breaker', desc: 'Rapid oral questions for tied teams — first correct answer wins.' },
+            { label: 'Round 1', desc: 'Rapid Fire — Participants answer a series of quick questions within a limited time to test speed and accuracy.' },
+            { label: 'Round 2', desc: 'Visual Round — Identification round where participants name logos, personalities, movie scenes, and more from visual cues.' },
+            { label: 'Round 3', desc: 'Buzzer Round — High-stakes round where faster responses yield more points. Speed and precision are critical.' },
         ],
         rules: [
-            'Teams consist of exactly 2 members.',
-            'Electronic devices are not allowed during the quiz.',
-            'All answers must be written clearly and legibly.',
-            'No communication between teams during the quiz.',
-            'Quiz master\'s ruling on ambiguous answers is final.',
-            'Bonus star questions carry double points — attempted at team\'s risk.',
+            'Each participant competes individually.',
+            'Topics cover General Knowledge, Movies, Sports, and Current Affairs.',
+            'No physical or digital aids are allowed during the rounds.',
+            'Buzzer priority is given to the fastest participant.',
+            'Decisions made by the quiz master are final and binding.',
         ],
-        coordinators: [
-            { name: 'Navashree U', phone: '+91 -' },
-            { name: 'Varshini K', phone: '+91 -' },
-            { name: 'Rupesh Ganapathy B', phone: '+91 -' },
-        ],
+        coordinators: [],
     },
 
     movie: {
@@ -856,7 +839,6 @@ const elDuration = document.getElementById('meta-duration');
 const elEligibility = document.getElementById('meta-eligibility');
 const elRounds = document.getElementById('modal-rounds');
 const elRulesEl = document.getElementById('modal-rules');
-const elCoords = document.getElementById('modal-coordinators');
 const roundsSection = document.getElementById('rounds-section');
 const registerBtn = document.getElementById('modal-register');
 
@@ -889,13 +871,6 @@ function openModal(eventKey) {
     // Rules
     elRulesEl.innerHTML = data.rules.map(rule => `<li>${rule}</li>`).join('');
 
-    // Coordinators
-    elCoords.innerHTML = data.coordinators.map(c =>
-        `<div class="coordinator-card">
-            <p class="coordinator-name">${c.name}</p>
-            <p class="coordinator-phone">${c.phone}</p>
-        </div>`
-    ).join('');
 
     // Accent variant
     if (data.accent) {

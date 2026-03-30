@@ -103,14 +103,16 @@ h3,
 }
 
 .psna-logo {
-  height: 55px;
-  /* Increased size to show it fully */
+  height: 85px; /* Further increased height */
+  width: auto;
+  min-width: 230px; /* Further horizontal length */
   background: white;
-  padding: 4px;
-  border-radius: 6px;
-  box-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
+  padding: 8px 16px; /* Increased padding */
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 243, 255, 0.4);
   pointer-events: none;
   transition: transform 0.3s ease;
+  object-fit: contain;
 }
 
 /* Logo & Navigation */
@@ -457,13 +459,16 @@ nav {
   .hero-countdown {
     gap: 10px;
   }
+
   .countdown-item {
     min-width: 60px;
     padding: 8px 10px;
   }
+
   .countdown-value {
     font-size: 1.5rem;
   }
+
   .countdown-label {
     font-size: 0.6rem;
     letter-spacing: 1px;
@@ -562,6 +567,79 @@ nav {
   border-bottom: 1px solid var(--glass-border);
   padding-bottom: 10px;
   font-size: 1.1rem;
+}
+
+.year-group p[style*="font-size: 0.8rem"] {
+  margin-top: -4px;
+  margin-bottom: 12px;
+}
+
+/* Members Section - Global Styles */
+.members-section {
+  margin-top: 50px;
+  width: 100%;
+  padding-top: 40px;
+  border-top: 1px solid var(--glass-border);
+}
+
+.members-subtitle {
+  text-align: center;
+  color: var(--primary);
+  font-family: 'Orbitron', sans-serif;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 25px;
+  font-size: 1.1rem;
+}
+
+.members-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+.member-year-col {
+  text-align: center;
+}
+
+.member-year-col h5 {
+  color: var(--accent);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 15px;
+  opacity: 0.9;
+}
+
+.names-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+
+.names-list span {
+  color: var(--text-main);
+  background: rgba(124, 58, 237, 0.15);
+  border: 1px solid rgba(124, 58, 237, 0.5);
+  padding: 8px 18px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  letter-spacing: 0.5px;
+  display: inline-block;
+  margin: 4px;
+}
+
+.names-list span:hover {
+  background: rgba(124, 58, 237, 0.3);
+  border-color: var(--accent);
+  transform: translateY(-3px);
+  box-shadow: 0 0 20px var(--accent-glow);
+  color: #fff;
 }
 
 .year-group {
@@ -1301,78 +1379,18 @@ nav {
   }
 
   @media (max-width: 600px) {
-  .bearers-grid {
-    flex-direction: column;
-    align-items: center;
+    .bearers-grid {
+      flex-direction: column;
+      align-items: center;
+    }
   }
-}
 
-.members-section {
-  margin-top: 50px;
-  width: 100%;
-  padding-top: 40px;
-  border-top: 1px solid var(--glass-border);
-}
 
-.members-subtitle {
-  text-align: center;
-  color: var(--primary);
-  font-family: 'Orbitron', sans-serif;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  margin-bottom: 25px;
-  font-size: 1.1rem;
-}
-
-.members-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 30px;
-}
-
-.member-year-col {
-  text-align: center;
-}
-
-.member-year-col h5 {
-  color: var(--accent);
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  margin-bottom: 15px;
-  opacity: 0.9;
-}
-
-.names-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 12px;
-}
-
-.names-list span {
-  color: var(--text-main);
-  background: rgba(0, 243, 255, 0.05);
-  border: 1px solid rgba(0, 243, 255, 0.15);
-  padding: 6px 14px;
-  border-radius: 4px;
-  font-size: 0.85rem;
-  transition: all 0.3s ease;
-  white-space: nowrap;
-}
-
-.names-list span:hover {
-  background: rgba(0, 243, 255, 0.15);
-  border-color: var(--primary);
-  transform: translateY(-2px);
-  box-shadow: 0 0 10px var(--primary-glow);
-}
-
-@media (max-width: 768px) {
-  .members-grid {
-    grid-template-columns: 1fr;
+  @media (max-width: 768px) {
+    .members-grid {
+      grid-template-columns: 1fr;
+    }
   }
-}
 
   .coordinators-grid {
     grid-template-columns: 1fr 1fr;
