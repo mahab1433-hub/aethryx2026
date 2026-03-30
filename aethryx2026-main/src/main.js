@@ -621,7 +621,7 @@ const EVENT_DATA = {
         title: '(PAPER X) Paper Presentation',
         accent: false,
         description: 'Showcase your innovative ideas, research insights, and technical expertise at our Paper Presentation event. This platform provides an opportunity for students to present their work, exchange knowledge, and gain valuable feedback from experts.',
-        teamSize: 'As per selection',
+        teamSize: 'Max 3 Participants',
         duration: '7 Minutes',
         eligibility: 'Presentation Timings via WhatsApp',
         rounds: [
