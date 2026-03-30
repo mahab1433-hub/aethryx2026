@@ -448,7 +448,8 @@ window.addEventListener('resize', () => {
 });
 
 // ---- ANIMATION LOOP ----
-const clock = new THREE.Clock();
+let lastTime = performance.now();
+let elapsedTime = 0;
 
 // Status Box Logic
 const elStatsLatency = document.getElementById('stats-latency');
@@ -459,7 +460,11 @@ let simulatedLatency = 32;
 
 function animate() {
     requestAnimationFrame(animate);
-    const time = clock.getElapsedTime();
+    const currentTime = performance.now();
+    const deltaTime = (currentTime - lastTime) / 1000;
+    lastTime = currentTime;
+    elapsedTime += deltaTime;
+    const time = elapsedTime;
 
     // Update Status Box (once per second for FPS, random for Latency)
     frames++;
@@ -832,9 +837,13 @@ const elRulesEl = document.getElementById('modal-rules');
 const roundsSection = document.getElementById('rounds-section');
 const registerBtn = document.getElementById('modal-register');
 
+let lastFocusedElement = null;
+
 function openModal(eventKey) {
     const data = EVENT_DATA[eventKey];
     if (!data) return;
+
+    lastFocusedElement = document.activeElement;
 
     // Populate
     elIcon.innerHTML = data.icon;
@@ -882,9 +891,16 @@ function openModal(eventKey) {
 }
 
 function closeModal() {
+    if (document.activeElement && document.activeElement.id === 'modal-close') {
+        document.activeElement.blur();
+    }
     modal.classList.remove('is-open');
     modal.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('modal-open');
+
+    if (lastFocusedElement) {
+        lastFocusedElement.focus();
+    }
 }
 
 // Card click handlers
