@@ -1019,7 +1019,7 @@ window.addEventListener('load', () => {
 // ---- HERO COUNTDOWN LOGIC ----
 const countdownDate = new Date("April 9, 2026 08:30:00").getTime();
 
-const x = setInterval(function() {
+const x = setInterval(function () {
     const now = new Date().getTime();
     const distance = countdownDate - now;
 

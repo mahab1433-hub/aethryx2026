@@ -103,11 +103,14 @@ h3,
 }
 
 .psna-logo {
-  height: 85px; /* Further increased height */
+  height: 85px;
+  /* Further increased height */
   width: auto;
-  min-width: 230px; /* Further horizontal length */
+  min-width: 230px;
+  /* Further horizontal length */
   background: white;
-  padding: 8px 16px; /* Increased padding */
+  padding: 8px 16px;
+  /* Increased padding */
   border-radius: 10px;
   box-shadow: 0 0 15px rgba(0, 243, 255, 0.4);
   pointer-events: none;
