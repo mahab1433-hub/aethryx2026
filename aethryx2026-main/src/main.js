@@ -6,10 +6,26 @@ import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPa
 // ---- SCENE SETUP ----
 const canvas = document.getElementById('background-canvas');
 
-const isMobile = window.innerWidth <= 768;
-const pixelRatio = isMobile ? Math.min(window.devicePixelRatio, 1) : Math.min(window.devicePixelRatio, 1.2); // Capped at 1.2 for performance
+// Device Detection Logic
+const isActualMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+const isMobile = isActualMobileDevice || (window.innerWidth <= 768 && window.matchMedia("(pointer: coarse)").matches);
 
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+// Hardware Capability Check
+const deviceRAM = navigator.deviceMemory || 4; // Default to a reasonable value if not available
+const cpuCores = navigator.hardwareConcurrency || 4;
+const isLowEndDevice = deviceRAM < 4 || cpuCores < 4;
+
+// Body class for CSS targeting
+if (isLowEndDevice) document.body.classList.add('low-end-device');
+
+const pixelRatio = isMobile ? (isLowEndDevice ? 1 : Math.min(window.devicePixelRatio, 1.2)) : Math.min(window.devicePixelRatio, 1.5); 
+
+const renderer = new THREE.WebGLRenderer({ 
+    canvas, 
+    antialias: !isLowEndDevice, // Only disable antialias on truly low-end devices
+    alpha: true,
+    powerPreference: "high-performance"
+});
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(pixelRatio);
 renderer.setClearColor(0x000000, 1); // Set absolute black background
@@ -21,16 +37,19 @@ const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerH
 camera.position.set(0, 0, 10); // Start very close to the chip for splash animation
 camera.lookAt(0, 0, 0);
 
-// ---- POST PROCESSING ----
-const renderScene = new RenderPass(scene, camera);
-const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
-bloomPass.threshold = 0.1;
-bloomPass.strength = 2.0;
-bloomPass.radius = 0.6;
+// ---- POST PROCESSING (Enabled for Desktops and High-end Mobiles) ----
+let composer;
+if (!isLowEndDevice) {
+    const renderScene = new RenderPass(scene, camera);
+    const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
+    bloomPass.threshold = 0.1;
+    bloomPass.strength = isMobile ? 1.2 : 2.2; // Softer bloom for phones to save battery
+    bloomPass.radius = 0.6;
 
-const composer = new EffectComposer(renderer);
-composer.addPass(renderScene);
-composer.addPass(bloomPass);
+    composer = new EffectComposer(renderer);
+    composer.addPass(renderScene);
+    composer.addPass(bloomPass);
+}
 
 // ---- COLORS ----
 const colors = {
@@ -444,7 +463,7 @@ window.addEventListener('resize', () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
-    composer.setSize(window.innerWidth, window.innerHeight);
+    if (composer) composer.setSize(window.innerWidth, window.innerHeight);
 });
 
 // ---- ANIMATION LOOP ----
@@ -514,7 +533,11 @@ function animate() {
     auraMesh.scale.setScalar(1.0);
     auraMesh.material.opacity = 0.1;
 
-    composer.render();
+    if (composer) {
+        composer.render();
+    } else {
+        renderer.render(scene, camera);
+    }
 }
 
 animate();
@@ -542,11 +565,13 @@ if (menuToggle && navLinks) {
 gsap.registerPlugin(ScrollTrigger);
 
 // Initialize Lenis for buttery smooth scrolling
+// Initialize Lenis for buttery smooth scrolling
 const lenis = new Lenis({
-    duration: 0.6, // Even faster for responsiveness
-    lerp: 0.1,    // Smoother catch-up
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // expo.out
+    duration: 1.0, // Smoother for high-end
+    lerp: 0.08,    
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
     smooth: true,
+    smoothTouch: false, // Disable smooth touch scroll to avoid lag on mobile
 });
 
 lenis.on('scroll', ScrollTrigger.update);
