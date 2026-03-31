@@ -272,6 +272,7 @@ chipGroup.add(baseMesh);
 
 // 1C. Glowing TRON Die Surface
 const logoGeo = new THREE.PlaneGeometry(16, 16);
+// Late-load textures to avoid startup lag
 const chipMap = createCyberChipTexture(false);
 const chipBump = createCyberChipTexture(true);
 
@@ -284,7 +285,7 @@ const logoMat = new THREE.MeshPhysicalMaterial({
     color: 0x444444,
     emissiveMap: chipBump,
     emissive: 0x00bbee,
-    emissiveIntensity: 1.0 // Reduced back down significantly
+    emissiveIntensity: 0.8
 });
 const logoMesh = new THREE.Mesh(logoGeo, logoMat);
 logoMesh.position.z = 0.76;
@@ -989,20 +990,22 @@ window.addEventListener('load', () => {
         ease: "power3.inOut"
     }, 0);
 
-    // 2. Bloom Power Surge Flash right at apex of pullback
-    introTl.to(bloomPass, {
-        strength: 6.0,
-        radius: 1.5,
-        duration: 0.4,
-        ease: "power2.in"
-    }, 1.4);
+    // 2. Bloom Power Surge Flash (Skip for low-end)
+    if (!isLowEndDevice && bloomPass) {
+        introTl.to(bloomPass, {
+            strength: isMobile ? 3.0 : 4.5, // Reduced surge for better frame stability
+            radius: 1.2,
+            duration: 0.6,
+            ease: "power2.in"
+        }, 1.2);
 
-    introTl.to(bloomPass, {
-        strength: 2.0,
-        radius: 0.6,
-        duration: 1.5,
-        ease: "power3.out"
-    }, 1.8);
+        introTl.to(bloomPass, {
+            strength: isMobile ? 1.2 : 2.2,
+            radius: 0.6,
+            duration: 1.5,
+            ease: "power3.out"
+        }, 1.8);
+    }
 
     // 3. Cinematic Typography Reveal
     if (title) {
