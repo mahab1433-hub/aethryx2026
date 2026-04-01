@@ -792,7 +792,7 @@ const EVENT_DATA = {
             'Initial round is a qualifying cricket quiz to select the top 24 participants.',
             'The final auction is restricted to the top 8 teams formed from the shortlisted members.',
             'Auction rules and virtual budgets will be explained at the start of Round 2.',
-            'Date: 09.04.2026 | Venue: VLSI Classroom.',
+            'Date: 09.04.2026',
         ],
         coordinators: [],
     },
