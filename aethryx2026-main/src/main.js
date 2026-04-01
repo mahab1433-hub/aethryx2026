@@ -11,21 +11,25 @@ const isActualMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile
 const isMobile = isActualMobileDevice || (window.innerWidth <= 768 && window.matchMedia("(pointer: coarse)").matches);
 
 // Hardware Capability Check
-const deviceRAM = navigator.deviceMemory || 4; 
+const deviceRAM = navigator.deviceMemory || 4;
 const cpuCores = navigator.hardwareConcurrency || 4;
 
 // categorizations
 // 4GB RAM devices are often laggy on Android, so we treat them as low-end for 3D
-const isLowEndDevice = (deviceRAM <= 4) || (isMobile && cpuCores <= 4); 
-const isPerformanceRestricted = isLowEndDevice || isMobile; 
+const isLowEndDevice = (deviceRAM <= 4) || (isMobile && cpuCores <= 4);
+const isPerformanceRestricted = isLowEndDevice || isMobile;
 
 // Body class for CSS targeting
-if (isLowEndDevice) document.body.classList.add('low-end-device');
+if (isLowEndDevice) {
+    document.body.classList.add('low-end-device');
+    // Hide glow orbs immediately on low-end to save GPU
+    document.querySelectorAll('.glow-orb').forEach(orb => orb.style.display = 'none');
+}
 
-const pixelRatio = isLowEndDevice ? 1 : (isMobile ? Math.min(window.devicePixelRatio, 1.2) : Math.min(window.devicePixelRatio, 1.5)); 
+const pixelRatio = isLowEndDevice ? 0.8 : (isMobile ? Math.min(window.devicePixelRatio, 1.2) : Math.min(window.devicePixelRatio, 1.5));
 
-const renderer = new THREE.WebGLRenderer({ 
-    canvas, 
+const renderer = new THREE.WebGLRenderer({
+    canvas,
     antialias: !isLowEndDevice, // Disable antialias on low-end/mobile for massive FPS boost
     alpha: true,
     powerPreference: "high-performance",
@@ -33,7 +37,7 @@ const renderer = new THREE.WebGLRenderer({
 });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(pixelRatio);
-renderer.setClearColor(0x000000, 1); 
+renderer.setClearColor(0x000000, 1);
 
 const scene = new THREE.Scene();
 scene.fog = new THREE.FogExp2(0x000000, 0.005);
@@ -73,7 +77,8 @@ const board = new THREE.Group();
 scene.add(board);
 
 // ---- BACKGROUND GRID ----
-const gridHelper = new THREE.GridHelper(400, 100, colors.gridMain, colors.gridSub);
+const gridDivs = isLowEndDevice ? 40 : 100;
+const gridHelper = new THREE.GridHelper(400, gridDivs, colors.gridMain, colors.gridSub);
 gridHelper.rotation.x = Math.PI / 2;
 gridHelper.position.z = -2;
 gridHelper.material.transparent = true;
@@ -87,8 +92,11 @@ board.add(chipGroup);
 
 function createCyberChipTexture(isBump = false) {
     const canvas = document.createElement('canvas');
-    canvas.width = 1024; canvas.height = 1024;
+    const res = isLowEndDevice ? 512 : 1024;
+    canvas.width = res; canvas.height = res;
     const ctx = canvas.getContext('2d');
+    const scale = res / 1024;
+    ctx.scale(scale, scale);
 
     // Background - a deep neon purple/blue
     ctx.fillStyle = isBump ? '#000000' : '#08011a';
@@ -485,6 +493,8 @@ window.addEventListener('resize', () => {
 // ---- ANIMATION LOOP ----
 let lastTime = performance.now();
 let elapsedTime = 0;
+const targetFPS = isLowEndDevice ? 30 : 60;
+const frameTime = 1000 / targetFPS;
 
 // Status Box Logic
 const elStatsLatency = document.getElementById('stats-latency');
@@ -496,7 +506,11 @@ let simulatedLatency = 32;
 function animate() {
     requestAnimationFrame(animate);
     const currentTime = performance.now();
-    const deltaTime = (currentTime - lastTime) / 1000;
+    const deltaTimeMillis = currentTime - lastTime;
+
+    if (deltaTimeMillis < frameTime) return; // Cap FPS for low-end
+
+    const deltaTime = deltaTimeMillis / 1000;
     lastTime = currentTime;
     elapsedTime += deltaTime;
     const time = elapsedTime;
@@ -581,20 +595,21 @@ if (menuToggle && navLinks) {
 gsap.registerPlugin(ScrollTrigger);
 
 // Initialize Lenis for buttery smooth scrolling
-// Initialize Lenis for buttery smooth scrolling
-const lenis = new Lenis({
+const lenis = !isLowEndDevice ? new Lenis({
     duration: 1.0, // Smoother for high-end
-    lerp: 0.08,    
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
+    lerp: 0.08,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     smooth: true,
     smoothTouch: false, // Disable smooth touch scroll to avoid lag on mobile
-});
+}) : null;
 
-lenis.on('scroll', ScrollTrigger.update);
+if (lenis) {
+    lenis.on('scroll', ScrollTrigger.update);
 
-gsap.ticker.add((time) => {
-    lenis.raf(time * 1000);
-});
+    gsap.ticker.add((time) => {
+        lenis.raf(time * 1000);
+    });
+}
 
 gsap.ticker.lagSmoothing(0);
 
@@ -637,8 +652,8 @@ sections.forEach(section => {
         tl.to(headings, {
             opacity: 1,
             y: 0,
-            duration: 1.0, // Reduced from 1.6
-            stagger: 0.05, // Reduced from 0.1
+            duration: isLowEndDevice ? 0.4 : 1.0,
+            stagger: isLowEndDevice ? 0 : 0.05,
             ease: "expo.out"
         });
     }
@@ -648,11 +663,11 @@ sections.forEach(section => {
             opacity: 1,
             y: 0,
             scale: 1,
-            duration: 1.2, // Reduced from 2.0
-            stagger: 0.08, // Reduced from 0.15
+            duration: isLowEndDevice ? 0.5 : 1.2,
+            stagger: isLowEndDevice ? 0 : 0.08,
             ease: "expo.out",
             clearProps: "transform" // restore CSS continuous floating animations
-        }, "-=0.8"); // Reduced from -=1.2
+        }, isLowEndDevice ? "-=0.2" : "-=0.8");
     }
 });
 
@@ -993,15 +1008,16 @@ window.addEventListener('load', () => {
     gsap.set(".hero-logo-container img", { opacity: 0, scale: 0.8, rotation: -180, filter: "blur(15px)" });
 
     // 1. Camera Pullback & Board Spin
+    const introDuration = isLowEndDevice ? 1.5 : 3.0;
     introTl.to(camera.position, {
         z: 85,
-        duration: 3.0,
+        duration: introDuration,
         ease: "power3.inOut"
     }, 0);
 
     introTl.to(board.rotation, {
         z: Math.PI * 2,
-        duration: 3.0,
+        duration: introDuration,
         ease: "power3.inOut"
     }, 0);
 
@@ -1024,35 +1040,42 @@ window.addEventListener('load', () => {
 
     // 3. Cinematic Typography Reveal
     if (title) {
-        gsap.set(title, { opacity: 0, scale: 1.1, filter: "blur(15px)" });
+        gsap.set(title, { opacity: 0, scale: 1.1, filter: isLowEndDevice ? "none" : "blur(15px)" });
         introTl.to(title, {
             opacity: 1,
             scale: 1,
-            filter: "blur(0px)",
-            duration: 1.5,
+            filter: "none",
+            duration: isLowEndDevice ? 0.6 : 1.5,
             ease: "expo.out"
-        }, 1.6);
+        }, isLowEndDevice ? 0.8 : 1.6);
     }
 
     if (subtitle) {
-        gsap.set(subtitle, { opacity: 0, scale: 1.1, filter: "blur(10px)", letterSpacing: "15px" });
+        gsap.set(subtitle, { 
+            opacity: 0, 
+            y: isLowEndDevice ? 10 : 0, 
+            scale: isLowEndDevice ? 1 : 1.1, 
+            filter: isLowEndDevice ? "none" : "blur(10px)", 
+            letterSpacing: isLowEndDevice ? "5px" : "15px" 
+        });
         introTl.to(subtitle, {
             opacity: 1,
+            y: 0,
             scale: 1,
-            filter: "blur(0px)",
+            filter: "none",
             letterSpacing: "5px",
-            duration: 1.5,
+            duration: isLowEndDevice ? 0.4 : 1.5,
             ease: "expo.out"
-        }, 1.7);
+        }, isLowEndDevice ? 0.7 : 1.7);
     }
 
     if (line) {
-        gsap.set(line, { width: "0%" });
+        gsap.set(line, { transform: "translateX(-50%) scaleX(0)" });
         introTl.to(line, {
-            width: "100%",
+            transform: "translateX(-50%) scaleX(1)",
             duration: 1.5,
             ease: "expo.out"
-        }, 1.6);
+        }, isLowEndDevice ? 0.6 : 1.6);
     }
 
     // Hold briefly before unlocking screen

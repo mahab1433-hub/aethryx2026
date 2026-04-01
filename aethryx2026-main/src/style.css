@@ -67,12 +67,22 @@ h3,
   text-shadow: none !important;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
   /* Disable resource-heavy animations */
-  animation-duration: 0.1s !important; /* Effectively static or very fast */
-  animation-iteration-count: 1 !important;
+  animation: none !important;
+  transition: opacity 0.2s ease, transform 0.2s ease !important;
+  /* Simplified transitions */
+}
+
+.low-end-device .glow-orb,
+.low-end-device .pulse-glow,
+.low-end-device .pulsing-btn,
+.low-end-device .pulsing {
+  display: none !important;
+  animation: none !important;
 }
 
 .low-end-device .glass-panel {
-  background: rgba(0, 5, 15, 0.95); /* More opaque background since blur is gone */
+  background: rgba(0, 5, 15, 0.95);
+  /* More opaque background since blur is gone */
 }
 
 .low-end-device .neon-text {
@@ -477,7 +487,7 @@ nav {
   letter-spacing: 2px;
   color: #ffffff;
   font-weight: bold;
-  text-shadow: 0 0 15px rgba(0,0,0,1), 0 0 5px rgba(0,0,0,1);
+  text-shadow: 0 0 15px rgba(0, 0, 0, 1), 0 0 5px rgba(0, 0, 0, 1);
   padding: 0 20px;
   max-width: 800px;
 }
@@ -828,16 +838,20 @@ nav {
     padding: 20px;
     gap: 8px;
   }
+
   .event-card h3 {
     font-size: 1rem;
   }
+
   .event-card p {
     font-size: 0.85rem;
     line-height: 1.4;
   }
+
   .card-badges {
     gap: 5px;
   }
+
   .badge {
     font-size: 0.7rem;
     padding: 3px 8px;
@@ -1614,16 +1628,19 @@ footer,
   text-transform: uppercase;
   margin: 5px 0 0 0;
   white-space: nowrap;
+  will-change: transform, opacity; /* Hardware acceleration */
 }
 
 .splash-line {
   position: absolute;
   bottom: 0;
   left: 50%;
-  transform: translateX(-50%);
-  width: 0%;
+  transform: translateX(-50%) scaleX(0); /* Start with scaleX(0) */
+  width: 100%; /* Use 100% and animate scale instead of width */
+  max-width: 500px;
   height: 2px;
   background: linear-gradient(90deg, transparent, var(--primary), transparent);
+  will-change: transform;
 }
 
 
@@ -1636,9 +1653,10 @@ footer,
   }
 
   .splash-subtitle {
-    font-size: 1.1rem;
-    letter-spacing: 4px;
+    font-size: 0.95rem;
+    letter-spacing: 2px !important;
     white-space: normal;
+    padding: 0 20px;
   }
 }
 
@@ -1661,8 +1679,11 @@ footer,
     opacity: 0.2;
     animation-duration: 20s;
   }
-  .orb-3, .orb-4 {
-    display: none; /* Hide extra orbs on mobile to save GPU */
+
+  .orb-3,
+  .orb-4 {
+    display: none;
+    /* Hide extra orbs on mobile to save GPU */
   }
 }
 
