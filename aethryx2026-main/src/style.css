@@ -58,6 +58,28 @@ h3,
   background-position: center center;
 }
 
+/* Optimization for Low-End/4GB RAM Devices */
+.low-end-device * {
+  /* Disable heavy backdrop blurs */
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  /* Simplify shadows */
+  text-shadow: none !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+  /* Disable resource-heavy animations */
+  animation-duration: 0.1s !important; /* Effectively static or very fast */
+  animation-iteration-count: 1 !important;
+}
+
+.low-end-device .glass-panel {
+  background: rgba(0, 5, 15, 0.95); /* More opaque background since blur is gone */
+}
+
+.low-end-device .neon-text {
+  color: var(--primary);
+  text-shadow: none !important;
+}
+
 /* Utility Classes */
 .glass-panel {
   background: var(--glass);

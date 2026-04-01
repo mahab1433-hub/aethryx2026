@@ -11,24 +11,29 @@ const isActualMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile
 const isMobile = isActualMobileDevice || (window.innerWidth <= 768 && window.matchMedia("(pointer: coarse)").matches);
 
 // Hardware Capability Check
-const deviceRAM = navigator.deviceMemory || 4; // Default to a reasonable value if not available
+const deviceRAM = navigator.deviceMemory || 4; 
 const cpuCores = navigator.hardwareConcurrency || 4;
-const isLowEndDevice = deviceRAM < 4 || cpuCores < 4;
+
+// categorizations
+// 4GB RAM devices are often laggy on Android, so we treat them as low-end for 3D
+const isLowEndDevice = (deviceRAM <= 4) || (isMobile && cpuCores <= 4); 
+const isPerformanceRestricted = isLowEndDevice || isMobile; 
 
 // Body class for CSS targeting
 if (isLowEndDevice) document.body.classList.add('low-end-device');
 
-const pixelRatio = isMobile ? (isLowEndDevice ? 1 : Math.min(window.devicePixelRatio, 1.2)) : Math.min(window.devicePixelRatio, 1.5); 
+const pixelRatio = isLowEndDevice ? 1 : (isMobile ? Math.min(window.devicePixelRatio, 1.2) : Math.min(window.devicePixelRatio, 1.5)); 
 
 const renderer = new THREE.WebGLRenderer({ 
     canvas, 
-    antialias: !isLowEndDevice, // Only disable antialias on truly low-end devices
+    antialias: !isLowEndDevice, // Disable antialias on low-end/mobile for massive FPS boost
     alpha: true,
-    powerPreference: "high-performance"
+    powerPreference: "high-performance",
+    precision: isLowEndDevice ? "lowp" : "highp" // Use lower precision on low-end
 });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(pixelRatio);
-renderer.setClearColor(0x000000, 1); // Set absolute black background
+renderer.setClearColor(0x000000, 1); 
 
 const scene = new THREE.Scene();
 scene.fog = new THREE.FogExp2(0x000000, 0.005);
@@ -38,10 +43,10 @@ camera.position.set(0, 0, 10); // Start very close to the chip for splash animat
 camera.lookAt(0, 0, 0);
 
 // ---- POST PROCESSING (Enabled for Desktops and High-end Mobiles) ----
-let composer;
+let composer, bloomPass;
 if (!isLowEndDevice) {
     const renderScene = new RenderPass(scene, camera);
-    const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
+    bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
     bloomPass.threshold = 0.1;
     bloomPass.strength = isMobile ? 1.2 : 2.2; // Softer bloom for phones to save battery
     bloomPass.radius = 0.6;
@@ -293,15 +298,25 @@ chipGroup.add(logoMesh);
 
 // 1D. Awwwards Style Refractive Glass Dome
 const glassGeo = new THREE.BoxGeometry(15.6, 15.6, 0.4);
-const glassMat = new THREE.MeshPhysicalMaterial({
-    color: 0xffffff,
-    metalness: 0.1,
-    roughness: 0.05,
-    transmission: 1.0, // High-end glass refraction
-    ior: 1.5,
-    thickness: 0.5,
-    transparent: true
-});
+let glassMat;
+if (isLowEndDevice) {
+    // Simple transparent material for low-end
+    glassMat = new THREE.MeshBasicMaterial({
+        color: 0x224466,
+        transparent: true,
+        opacity: 0.2
+    });
+} else {
+    glassMat = new THREE.MeshPhysicalMaterial({
+        color: 0xffffff,
+        metalness: 0.1,
+        roughness: 0.05,
+        transmission: 1.0, // High-end glass refraction
+        ior: 1.5,
+        thickness: 0.5,
+        transparent: true
+    });
+}
 const glassMesh = new THREE.Mesh(glassGeo, glassMat);
 glassMesh.position.z = 0.96; // Encapsulates the inner die
 chipGroup.add(glassMesh);
@@ -319,7 +334,7 @@ chipGroup.add(logoMesh);
 // ---- 2. DENSE PCB PATHWAYS ----
 function generateBasePaths() {
     const qPaths = [];
-    const numPins = 5;
+    const numPins = isLowEndDevice ? 2 : 5;
 
     // Top Edge paths 
     for (let i = 0; i < numPins; i++) {
@@ -399,7 +414,7 @@ mirrors.forEach(([mx, my]) => {
         }
 
         // Dynamic electrons
-        if (Math.random() > 0.2) {
+        if (!isLowEndDevice && Math.random() > 0.2) {
             const numElectrons = isMobile ? 1 : (Math.random() > 0.8 ? 2 : 1);
             for (let e = 0; e < numElectrons; e++) {
                 const eGeo = new THREE.CircleGeometry(0.5, 16);
@@ -419,7 +434,7 @@ mirrors.forEach(([mx, my]) => {
 });
 
 // ---- 3. PARTICLES ----
-const particleCount = isMobile ? 100 : 300;
+const particleCount = isLowEndDevice ? 50 : (isMobile ? 100 : 300);
 const particleGeometry = new THREE.BufferGeometry();
 const particlePositions = new Float32Array(particleCount * 3);
 for (let i = 0; i < particleCount; i++) {
