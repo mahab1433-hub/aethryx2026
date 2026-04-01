@@ -60,16 +60,14 @@ h3,
 
 /* Optimization for Low-End/4GB RAM Devices */
 .low-end-device * {
-  /* Disable heavy backdrop blurs */
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  /* Simplify shadows */
-  text-shadow: none !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
-  /* Disable resource-heavy animations */
-  animation: none !important;
-  transition: opacity 0.2s ease, transform 0.2s ease !important;
-  /* Simplified transitions */
+  /* Retain core layout stability but allow full graphics */
+  will-change: transform, opacity;
+}
+
+.low-end-device .glass-panel {
+  background: var(--glass);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .low-end-device .glow-orb,

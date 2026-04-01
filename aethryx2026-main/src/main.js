@@ -22,18 +22,16 @@ const isPerformanceRestricted = isLowEndDevice || isMobile;
 // Body class for CSS targeting
 if (isLowEndDevice) {
     document.body.classList.add('low-end-device');
-    // Hide glow orbs immediately on low-end to save GPU
-    document.querySelectorAll('.glow-orb').forEach(orb => orb.style.display = 'none');
 }
 
-const pixelRatio = isLowEndDevice ? 0.8 : (isMobile ? Math.min(window.devicePixelRatio, 1.2) : Math.min(window.devicePixelRatio, 1.5));
+const pixelRatio = isMobile ? Math.min(window.devicePixelRatio, 1.2) : Math.min(window.devicePixelRatio, 1.5); 
 
-const renderer = new THREE.WebGLRenderer({
-    canvas,
-    antialias: !isLowEndDevice, // Disable antialias on low-end/mobile for massive FPS boost
+const renderer = new THREE.WebGLRenderer({ 
+    canvas, 
+    antialias: true, 
     alpha: true,
     powerPreference: "high-performance",
-    precision: isLowEndDevice ? "lowp" : "highp" // Use lower precision on low-end
+    precision: "highp"
 });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(pixelRatio);
@@ -46,19 +44,17 @@ const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerH
 camera.position.set(0, 0, 10); // Start very close to the chip for splash animation
 camera.lookAt(0, 0, 0);
 
-// ---- POST PROCESSING (Enabled for Desktops and High-end Mobiles) ----
+// ---- POST PROCESSING (Enabled for All Devices) ----
 let composer, bloomPass;
-if (!isLowEndDevice) {
-    const renderScene = new RenderPass(scene, camera);
-    bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
-    bloomPass.threshold = 0.1;
-    bloomPass.strength = isMobile ? 1.2 : 2.2; // Softer bloom for phones to save battery
-    bloomPass.radius = 0.6;
+const renderScene = new RenderPass(scene, camera);
+bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
+bloomPass.threshold = 0.1;
+bloomPass.strength = isLowEndDevice ? 1.0 : (isMobile ? 1.2 : 2.2); // Balanced strength for 4GB
+bloomPass.radius = 0.6;
 
-    composer = new EffectComposer(renderer);
-    composer.addPass(renderScene);
-    composer.addPass(bloomPass);
-}
+composer = new EffectComposer(renderer);
+composer.addPass(renderScene);
+composer.addPass(bloomPass);
 
 // ---- COLORS ----
 const colors = {
@@ -493,7 +489,7 @@ window.addEventListener('resize', () => {
 // ---- ANIMATION LOOP ----
 let lastTime = performance.now();
 let elapsedTime = 0;
-const targetFPS = isLowEndDevice ? 30 : 60;
+const targetFPS = 60; // Restore 60 FPS for all
 const frameTime = 1000 / targetFPS;
 
 // Status Box Logic
@@ -595,21 +591,19 @@ if (menuToggle && navLinks) {
 gsap.registerPlugin(ScrollTrigger);
 
 // Initialize Lenis for buttery smooth scrolling
-const lenis = !isLowEndDevice ? new Lenis({
-    duration: 1.0, // Smoother for high-end
-    lerp: 0.08,
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+const lenis = new Lenis({
+    duration: 1.0, 
+    lerp: 0.08,    
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
     smooth: true,
-    smoothTouch: false, // Disable smooth touch scroll to avoid lag on mobile
-}) : null;
+    smoothTouch: false, 
+});
 
-if (lenis) {
-    lenis.on('scroll', ScrollTrigger.update);
+lenis.on('scroll', ScrollTrigger.update);
 
-    gsap.ticker.add((time) => {
-        lenis.raf(time * 1000);
-    });
-}
+gsap.ticker.add((time) => {
+    lenis.raf(time * 1000);
+});
 
 gsap.ticker.lagSmoothing(0);
 
