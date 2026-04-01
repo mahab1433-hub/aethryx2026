@@ -10,21 +10,19 @@ const canvas = document.getElementById('background-canvas');
 const isActualMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 const isMobile = isActualMobileDevice || (window.innerWidth <= 768 && window.matchMedia("(pointer: coarse)").matches);
 
-// Hardware Capability Check
-const deviceRAM = navigator.deviceMemory || 4;
+// Hardware Capability Check (4GB RAM as threshold)
+const deviceRAM = navigator.deviceMemory || 4; // Default to 4 if API not available
 const cpuCores = navigator.hardwareConcurrency || 4;
 
-// categorizations
-// 4GB RAM devices are often laggy on Android, so we treat them as low-end for 3D
-const isLowEndDevice = (deviceRAM <= 4) || (isMobile && cpuCores <= 4);
-const isPerformanceRestricted = isLowEndDevice || isMobile;
+// All devices now use the premium high-end experience, but optimized for stability
+const isLowEndDevice = deviceRAM < 4; 
+const isPerformanceRestricted = isMobile || deviceRAM <= 4; 
 
-// Body class for CSS targeting
-if (isLowEndDevice) {
+if (isPerformanceRestricted) {
     document.body.classList.add('low-end-device');
 }
 
-const pixelRatio = isMobile ? Math.min(window.devicePixelRatio, 1.2) : Math.min(window.devicePixelRatio, 1.5); 
+const pixelRatio = isPerformanceRestricted ? Math.min(window.devicePixelRatio, 0.9) : Math.min(window.devicePixelRatio, 1.5); 
 
 const renderer = new THREE.WebGLRenderer({ 
     canvas, 
@@ -49,8 +47,8 @@ let composer, bloomPass;
 const renderScene = new RenderPass(scene, camera);
 bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
 bloomPass.threshold = 0.1;
-bloomPass.strength = isLowEndDevice ? 1.0 : (isMobile ? 1.2 : 2.2); // Balanced strength for 4GB
-bloomPass.radius = 0.6;
+bloomPass.strength = isPerformanceRestricted ? 1.0 : 1.8; // Optimized for 4GB
+bloomPass.radius = isPerformanceRestricted ? 0.4 : 0.6;
 
 composer = new EffectComposer(renderer);
 composer.addPass(renderScene);
@@ -88,7 +86,7 @@ board.add(chipGroup);
 
 function createCyberChipTexture(isBump = false) {
     const canvas = document.createElement('canvas');
-    const res = isLowEndDevice ? 512 : 1024;
+    const res = isPerformanceRestricted ? 512 : 1024;
     canvas.width = res; canvas.height = res;
     const ctx = canvas.getContext('2d');
     const scale = res / 1024;
@@ -325,12 +323,12 @@ const glassMesh = new THREE.Mesh(glassGeo, glassMat);
 glassMesh.position.z = 0.96; // Encapsulates the inner die
 chipGroup.add(glassMesh);
 
-// Bring back lights for PBR
-const directionalLight = new THREE.DirectionalLight(0x00f3ff, 1.2); // Reduced from 4.5
+// Bring back lights for PBR (Optimized for 4GB)
+const directionalLight = new THREE.DirectionalLight(0x00f3ff, isPerformanceRestricted ? 0.8 : 1.2); 
 directionalLight.position.set(5, 12, 10);
 scene.add(directionalLight);
 
-const ambientLight = new THREE.AmbientLight(0xffffff, 1.0); // Reduced from 2.0
+const ambientLight = new THREE.AmbientLight(0xffffff, isPerformanceRestricted ? 0.6 : 1.0);
 scene.add(ambientLight);
 chipGroup.add(logoMesh);
 
@@ -489,41 +487,20 @@ window.addEventListener('resize', () => {
 // ---- ANIMATION LOOP ----
 let lastTime = performance.now();
 let elapsedTime = 0;
-const targetFPS = 60; // Restore 60 FPS for all
+const targetFPS = 60;
 const frameTime = 1000 / targetFPS;
-
-// Status Box Logic
-const elStatsLatency = document.getElementById('stats-latency');
-const elStatsFps = document.getElementById('stats-fps');
-let lastFpsUpdate = 0;
-let frames = 0;
-let simulatedLatency = 32;
 
 function animate() {
     requestAnimationFrame(animate);
     const currentTime = performance.now();
     const deltaTimeMillis = currentTime - lastTime;
 
-    if (deltaTimeMillis < frameTime) return; // Cap FPS for low-end
+    if (deltaTimeMillis < frameTime) return; // Cap FPS for high-end
 
     const deltaTime = deltaTimeMillis / 1000;
     lastTime = currentTime;
     elapsedTime += deltaTime;
     const time = elapsedTime;
-
-    // Update Status Box (once per second for FPS, random for Latency)
-    frames++;
-    if (time - lastFpsUpdate > 1.0) {
-        const fps = Math.round(frames / (time - lastFpsUpdate));
-        if (elStatsFps) elStatsFps.textContent = `${fps} fps`;
-
-        // Randomize latency slightly for realism
-        simulatedLatency = Math.floor(20 + Math.random() * 25);
-        if (elStatsLatency) elStatsLatency.textContent = `${simulatedLatency} ms`;
-
-        frames = 0;
-        lastFpsUpdate = time;
-    }
 
     // Subtle parallax (GSAP controls base rotation during intro, mouse adds delta)
     board.rotation.x += ((mouseY * 0.05) - board.rotation.x) * 0.05;
@@ -590,8 +567,8 @@ if (menuToggle && navLinks) {
 // ---- GSAP ANTI-GRAVITY, LENIS & PARALLAX ----
 gsap.registerPlugin(ScrollTrigger);
 
-// Initialize Lenis for buttery smooth scrolling
-const lenis = new Lenis({
+// Initialize Lenis for buttery smooth scrolling (Disabled on very low RAM to save memory)
+const lenis = (isLowEndDevice) ? null : new Lenis({
     duration: 1.0, 
     lerp: 0.08,    
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
@@ -599,11 +576,12 @@ const lenis = new Lenis({
     smoothTouch: false, 
 });
 
-lenis.on('scroll', ScrollTrigger.update);
-
-gsap.ticker.add((time) => {
-    lenis.raf(time * 1000);
-});
+if (lenis) {
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((time) => {
+        lenis.raf(time * 1000);
+    });
+}
 
 gsap.ticker.lagSmoothing(0);
 
@@ -1032,35 +1010,31 @@ window.addEventListener('load', () => {
         }, 1.8);
     }
 
-    // 3. Cinematic Typography Reveal
+    // 3. Cinematic Typography Reveal (Optimized: No slow blur filters in animation)
     if (title) {
-        gsap.set(title, { opacity: 0, scale: 1.1, filter: isLowEndDevice ? "none" : "blur(15px)" });
+        gsap.set(title, { opacity: 0, scale: 1.05, y: 10 });
         introTl.to(title, {
             opacity: 1,
             scale: 1,
-            filter: "none",
-            duration: isLowEndDevice ? 0.6 : 1.5,
-            ease: "expo.out"
-        }, isLowEndDevice ? 0.8 : 1.6);
+            y: 0,
+            duration: 1.2,
+            ease: "power2.out"
+        }, isPerformanceRestricted ? 0.8 : 1.4);
     }
 
     if (subtitle) {
         gsap.set(subtitle, { 
             opacity: 0, 
-            y: isLowEndDevice ? 10 : 0, 
-            scale: isLowEndDevice ? 1 : 1.1, 
-            filter: isLowEndDevice ? "none" : "blur(10px)", 
-            letterSpacing: isLowEndDevice ? "5px" : "15px" 
+            y: 15, 
+            letterSpacing: isPerformanceRestricted ? "2px" : "10px" 
         });
         introTl.to(subtitle, {
             opacity: 1,
             y: 0,
-            scale: 1,
-            filter: "none",
-            letterSpacing: "5px",
-            duration: isLowEndDevice ? 0.4 : 1.5,
-            ease: "expo.out"
-        }, isLowEndDevice ? 0.7 : 1.7);
+            letterSpacing: "2px",
+            duration: 1.0,
+            ease: "power2.out"
+        }, isPerformanceRestricted ? 1.0 : 1.6);
     }
 
     if (line) {

@@ -60,32 +60,31 @@ h3,
 
 /* Optimization for Low-End/4GB RAM Devices */
 .low-end-device * {
-  /* Retain core layout stability but allow full graphics */
-  will-change: transform, opacity;
+  /* Retain core layout stability */
+  will-change: auto;
+}
+
+.low-end-device .glow-orb {
+  /* Keep orbs but reduce movement complexity */
+  opacity: 0.4;
+  filter: blur(40px);
+  will-change: transform;
+}
+
+.low-end-device .pulse-glow {
+  /* Restore pulsers but with simpler filters */
+  animation: image-pulse 6s ease-in-out infinite;
 }
 
 .low-end-device .glass-panel {
-  background: var(--glass);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-}
-
-.low-end-device .glow-orb,
-.low-end-device .pulse-glow,
-.low-end-device .pulsing-btn,
-.low-end-device .pulsing {
-  display: none !important;
-  animation: none !important;
-}
-
-.low-end-device .glass-panel {
-  background: rgba(0, 5, 15, 0.95);
-  /* More opaque background since blur is gone */
+  background: rgba(0, 5, 15, 0.9);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .low-end-device .neon-text {
   color: var(--primary);
-  text-shadow: none !important;
+  text-shadow: 0 0 8px var(--primary-glow);
 }
 
 /* Utility Classes */
