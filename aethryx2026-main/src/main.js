@@ -687,6 +687,7 @@ const EVENT_DATA = {
         ],
         rules: [
             'Posters should be clear, informative, and visually appealing.',
+            'Poster size must be A1 (24 × 36 inches).',
             'Participants must bring their own printed poster for the event.',
             'Content must highlight: Problem Statement, Methodology, Results/Outcome, and Conclusion.',
             'Evaluated on innovation, clarity of presentation, and ability to answer questions.',
