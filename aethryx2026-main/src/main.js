@@ -703,7 +703,7 @@ const EVENT_DATA = {
         description: 'Logic League is a technical coding challenge designed to test participants’ programming knowledge, logical thinking, debugging skills, and problem-solving ability through multiple competitive rounds.',
         teamSize: '2 Members per Team',
         duration: 'Varies by round',
-        eligibility: 'Shortlisted Participants',
+        eligibility: 'Open to All Students',
         rounds: [
             { label: 'Round 1', desc: 'Output Prediction — Participants must correctly predict the output of a given code snippet without executing it, within a strict time limit.' },
             { label: 'Round 2', desc: 'One Problem – Many Ways — Teams solve a programming challenge; evaluated on code correctness, length (shortest code wins), and logical efficiency.' },
@@ -726,7 +726,7 @@ const EVENT_DATA = {
         description: 'Test your expertise in Basic Electronics, VLSI, IoT, Embedded Systems, and Basic Coding. Teams will be shortlisted based on Google Form responses submitted by participants.',
         teamSize: '2 Members per Team',
         duration: '1.5 Hours',
-        eligibility: 'Shortlisted from Google Form',
+        eligibility: 'Open to All Students',
         rounds: [
             { label: 'Round 1', desc: 'First Spark — Quick-response verbal round where participants must press the buzzer to answer. Tests fundamental knowledge and alertness.' },
             { label: 'Round 2', desc: 'Screen Surge — Questions displayed on screen; participants answer by pressing the buzzer given to them. Focuses on conceptual understanding and analytical thinking.' },
@@ -834,7 +834,7 @@ const EVENT_DATA = {
         description: 'A cinematic challenge designed to test your movie knowledge through visual hints, background themes, and iconic dialogues across three competitive rounds.',
         teamSize: '1–2 Members per Team',
         duration: 'Varies by Round',
-        eligibility: 'Max 10 Teams (Leaderboard Eliminations)',
+        eligibility: 'Open to All Students',
         rounds: [
             { label: 'Round 1 — Picture Puzzle', desc: 'Identify movie names through a series of picture puzzles. Each correct guess earns the team 10 points.' },
             { label: 'Round 2 — Theme Music', desc: 'An audio-based round where teams must name movies based on their background theme music.' },
