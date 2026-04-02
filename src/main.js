@@ -620,10 +620,10 @@ const EVENT_DATA = {
         category: 'Technical Protocol',
         title: '(PAPER X) Paper Presentation',
         accent: false,
-        description: 'Showcase your original research and innovative ideas in VLSI Design, Microelectronics, Embedded Systems, and allied domains. Participants will present their work before a panel of faculty judges and receive professional feedback.',
+        description: 'Showcase your original research and innovative ideas in VLSI Design, Microelectronics, Embedded Systems, and allied domains. Participants will present their work before a panel of faculty judges and receive professional feedback. (Note: Presentation timings will be shared via WhatsApp)',
         teamSize: '2 – 3 Members',
         duration: '3 Hours',
-        eligibility: 'UG / PG Students',
+        eligibility: 'Open to All Students',
         rounds: [
             { label: 'Round 1', desc: 'Abstract Submission — Submit a 250-word abstract of your paper for screening. Shortlisted teams will be notified 2 days before the event.' },
             { label: 'Round 2', desc: 'Presentation — Shortlisted teams present their paper (PPT) within 8 minutes, followed by a 5-minute Q&A session with the judges.' },
@@ -635,6 +635,7 @@ const EVENT_DATA = {
             'Presentation duration: 8 minutes + 5 minutes Q&A.',
             'Teams must bring their presentation on a USB drive or submit it beforehand.',
             'Use of AI-generated content must be disclosed and is subject to judge discretion.',
+            'Presentation timings will be shared via WhatsApp.',
             'Judges\' decision is final and binding.',
         ],
         coordinators: [

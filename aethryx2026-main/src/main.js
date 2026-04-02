@@ -15,18 +15,18 @@ const deviceRAM = navigator.deviceMemory || 4; // Default to 4 if API not availa
 const cpuCores = navigator.hardwareConcurrency || 4;
 
 // All devices now use the premium high-end experience, but optimized for stability
-const isLowEndDevice = deviceRAM < 4; 
-const isPerformanceRestricted = isMobile || deviceRAM <= 4; 
+const isLowEndDevice = deviceRAM < 4;
+const isPerformanceRestricted = isMobile || deviceRAM <= 4;
 
 if (isPerformanceRestricted) {
     document.body.classList.add('low-end-device');
 }
 
-const pixelRatio = isPerformanceRestricted ? Math.min(window.devicePixelRatio, 0.9) : Math.min(window.devicePixelRatio, 1.5); 
+const pixelRatio = isPerformanceRestricted ? Math.min(window.devicePixelRatio, 0.9) : Math.min(window.devicePixelRatio, 1.5);
 
-const renderer = new THREE.WebGLRenderer({ 
-    canvas, 
-    antialias: true, 
+const renderer = new THREE.WebGLRenderer({
+    canvas,
+    antialias: true,
     alpha: true,
     powerPreference: "high-performance",
     precision: "highp"
@@ -324,7 +324,7 @@ glassMesh.position.z = 0.96; // Encapsulates the inner die
 chipGroup.add(glassMesh);
 
 // Bring back lights for PBR (Optimized for 4GB)
-const directionalLight = new THREE.DirectionalLight(0x00f3ff, isPerformanceRestricted ? 0.8 : 1.2); 
+const directionalLight = new THREE.DirectionalLight(0x00f3ff, isPerformanceRestricted ? 0.8 : 1.2);
 directionalLight.position.set(5, 12, 10);
 scene.add(directionalLight);
 
@@ -569,11 +569,11 @@ gsap.registerPlugin(ScrollTrigger);
 
 // Initialize Lenis for buttery smooth scrolling (Disabled on very low RAM to save memory)
 const lenis = (isLowEndDevice) ? null : new Lenis({
-    duration: 1.0, 
-    lerp: 0.08,    
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
+    duration: 1.0,
+    lerp: 0.08,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     smooth: true,
-    smoothTouch: false, 
+    smoothTouch: false,
 });
 
 if (lenis) {
@@ -656,17 +656,18 @@ const EVENT_DATA = {
         description: 'Showcase your innovative ideas, research insights, and technical expertise at our Paper Presentation event. This platform provides an opportunity for students to present their work, exchange knowledge, and gain valuable feedback from experts.',
         teamSize: 'Max 3 Participants',
         duration: '7 Minutes',
-        eligibility: 'Presentation Timings via WhatsApp',
+        eligibility: 'Open to All Students',
         rounds: [
             { label: 'Domains', desc: 'VLSI, IoT & Embedded Systems, Information Technology (IT), Cybersecurity, Artificial Intelligence (AI).' },
             { label: 'Presentation Format', desc: '7 Minutes total: 5 Minutes for Presentation and 2 Minutes for Q&A.' },
         ],
         rules: [
-            'Participants must upload their presentation in advance via Google Form.',
-            'Accepted formats: PDF / PPTX only.',
+            'Presentation can contain a maximum of 10 Slides.',
+            'Participants must bring their presentation with them.',
+            'Accepted Softcopy formats: PDF / PPTX only.',
             'Evaluation based on Technical Knowledge, Innovation, Clarity, Time Management, and Q&A ability.',
             'Content must be clear, concise, and within the time limit.',
-            'Presentation timings will be shared via WhatsApp.',
+            'Decisions made by the event coordinators/judges are final.',
         ],
         coordinators: [],
     },
@@ -689,6 +690,7 @@ const EVENT_DATA = {
             'Participants must bring their own printed poster for the event.',
             'Content must highlight: Problem Statement, Methodology, Results/Outcome, and Conclusion.',
             'Evaluated on innovation, clarity of presentation, and ability to answer questions.',
+            'Decisions made by the event coordinators/judges are final.',
         ],
         coordinators: [],
     },
@@ -711,7 +713,7 @@ const EVENT_DATA = {
             'Each team must consist of exactly 2 members.',
             'Topics include Python, Output Prediction, and Debugging.',
             'Teams are evaluated based on Accuracy, Code Efficiency, and Time Management.',
-            'Decisions made by the event coordinators are final.',
+            'Decisions made by the event coordinators/judges are final.',
         ],
         coordinators: [],
     },
@@ -726,14 +728,14 @@ const EVENT_DATA = {
         duration: '1.5 Hours',
         eligibility: 'Shortlisted from Google Form',
         rounds: [
-            { label: 'Round 1', desc: 'First Spark — Quick-response verbal round where participants raise their hands to answer. Tests fundamental knowledge and alertness.' },
-            { label: 'Round 2', desc: 'Screen Surge — Questions displayed on screen; participants answer by raising hands. Focuses on conceptual understanding and analytical thinking.' },
+            { label: 'Round 1', desc: 'First Spark — Quick-response verbal round where participants must press the buzzer to answer. Tests fundamental knowledge and alertness.' },
+            { label: 'Round 2', desc: 'Screen Surge — Questions displayed on screen; participants answer by pressing the buzzer given to them. Focuses on conceptual understanding and analytical thinking.' },
             { label: 'Round 3', desc: 'Rapid Circuit — High-speed rapid fire round where teams answer a series of questions within a limited time to evaluate speed and accuracy.' },
         ],
         rules: [
             'Each team must consist of exactly 2 members.',
             'Initial shortlisting is based on Google Form responses.',
-            'In hand-raising rounds, the first to raise their hand will be given priority.',
+            'In Buzzer based rounds, the first to press the buzzer will be given priority.',
             'Verbal answers must be clear and direct.',
             'The Rapid Circuit round requires quick response times—accuracy and speed are key.',
             'Decisions made by the event coordinators/judges are final.',
@@ -768,6 +770,7 @@ const EVENT_DATA = {
             'Speaking, writing letters/numbers, or using actions is not allowed—only drawing is permitted.',
             'Each correct guess will be awarded points.',
             'The team with the maximum correct guesses within 3 minutes will be the winner.',
+            'Decisions made by the event coordinators/judges are final.',
         ],
         coordinators: [
             { name: 'Lohendran C', phone: '+91 -' },
@@ -794,7 +797,7 @@ const EVENT_DATA = {
             'Initial round is a qualifying cricket quiz to select the top 24 participants.',
             'The final auction is restricted to the top 8 teams formed from the shortlisted members.',
             'Auction rules and virtual budgets will be explained at the start of Round 2.',
-            'Date: 09.04.2026',
+            'Decisions made by the event coordinators/judges are final.',
         ],
         coordinators: [],
     },
@@ -818,7 +821,7 @@ const EVENT_DATA = {
             'Topics cover General Knowledge, Movies, Sports, and Current Affairs.',
             'No physical or digital aids are allowed during the rounds.',
             'Buzzer priority is given to the fastest participant.',
-            'Decisions made by the quiz master are final and binding.',
+            'Decisions made by the event coordinators/judges are final.',
         ],
         coordinators: [],
     },
@@ -829,7 +832,7 @@ const EVENT_DATA = {
         title: 'Film Fiesta',
         accent: true,
         description: 'A cinematic challenge designed to test your movie knowledge through visual hints, background themes, and iconic dialogues across three competitive rounds.',
-        teamSize: '1–3 Members per Team',
+        teamSize: '1–2 Members per Team',
         duration: 'Varies by Round',
         eligibility: 'Max 10 Teams (Leaderboard Eliminations)',
         rounds: [
@@ -838,11 +841,12 @@ const EVENT_DATA = {
             { label: 'Round 3 — Iconic Dialogues', desc: 'A final audio-based quiz focusing on specific dialogues. Cumulative points will finalize the ultimate leaderboard.' },
         ],
         rules: [
-            'Teams can consist of 1 to 3 members.',
+            'Teams can consist of 1 to 2 members.',
             'Total occupancy is strictly limited to 10 teams.',
             '10 points are awarded for every correct guess per round.',
             'Leaderboard updates after every round; lowest-scoring teams are eliminated as per regulations.',
             'Final leaderboard scores at the end of Round 3 determine the top 3 prize winners.',
+            'Decisions made by the event coordinators/judges are final.',
         ],
         coordinators: [],
     },
@@ -1023,10 +1027,10 @@ window.addEventListener('load', () => {
     }
 
     if (subtitle) {
-        gsap.set(subtitle, { 
-            opacity: 0, 
-            y: 15, 
-            letterSpacing: isPerformanceRestricted ? "2px" : "10px" 
+        gsap.set(subtitle, {
+            opacity: 0,
+            y: 15,
+            letterSpacing: isPerformanceRestricted ? "2px" : "10px"
         });
         introTl.to(subtitle, {
             opacity: 1,
