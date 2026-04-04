@@ -1086,3 +1086,18 @@ const x = setInterval(function () {
     if (elMinutes) elMinutes.innerText = minutes < 10 ? "0" + minutes : minutes;
     if (elSeconds) elSeconds.innerText = seconds < 10 ? "0" + seconds : seconds;
 }, 1000);
+
+// ---- 7. INTERNAL ACCESS SCROLL ----
+const internalAccessBtn = document.getElementById('internal-access-btn');
+if (internalAccessBtn) {
+    internalAccessBtn.addEventListener('click', () => {
+        const target = document.getElementById('internal-register');
+        if (target) {
+            if (lenis) {
+                lenis.scrollTo('#internal-register', { offset: -50 });
+            } else {
+                target.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    });
+}

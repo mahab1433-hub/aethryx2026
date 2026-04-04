@@ -195,6 +195,20 @@ h3,
   }
 }
 
+@keyframes pulse-accent {
+  0% {
+    box-shadow: 0 0 5px var(--accent-glow);
+  }
+
+  50% {
+    box-shadow: 0 0 20px var(--accent-glow);
+  }
+
+  100% {
+    box-shadow: 0 0 5px var(--accent-glow);
+  }
+}
+
 .neon-btn {
   animation: pulse 2s infinite;
 }
